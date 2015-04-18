@@ -8,9 +8,9 @@ module ActionController
       raise MissingRenderer.new(format) unless has_renderer?
 
       if get?
-        display resource
+        display resource, status: resource.present? ? 200 : 404
       elsif post?
-        display resource, :status => :ok, :location => api_location
+        display resource, status: :ok, location: api_location
       else
         head :no_content
       end
