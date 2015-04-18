@@ -1,6 +1,10 @@
 class RespondersController < ApplicationController
   def index
-    respond_with responders
+    if params[:show] == 'capacity'
+      respond_with responder_capacity
+    else
+      respond_with responders
+    end
   end
 
   def show
@@ -40,5 +44,9 @@ class RespondersController < ApplicationController
 
   def responder_update_params
     params.require(:responder).permit(permitted_update_params)
+  end
+
+  def responder_capacity
+    { capacity: ResponderCapacity.new }
   end
 end
