@@ -7,7 +7,9 @@ module ActionController
     def api_behavior
       raise MissingRenderer.new(format) unless has_renderer?
 
-      if get?
+      if get? && resource.kind_of?(ActiveRecord::Relation)
+        display resource
+      elsif get?
         display resource, status: resource.present? ? 200 : 404
       elsif post? || patch?
         display resource, status: :ok, location: api_location
