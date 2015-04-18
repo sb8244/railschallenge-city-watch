@@ -1,6 +1,4 @@
 class RespondersController < ApplicationController
-  respond_to :json
-
   def index
     respond_with responders
   end
@@ -15,6 +13,10 @@ class RespondersController < ApplicationController
 
   private
 
+  def permitted_params
+    [:type, :name, :capacity]
+  end
+
   def responders
     Responder.all
   end
@@ -24,6 +26,6 @@ class RespondersController < ApplicationController
   end
 
   def responder_params
-    params.require(:responder).permit(:type, :name, :capacity)
+    params.require(:responder).permit(permitted_params)
   end
 end
