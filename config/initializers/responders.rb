@@ -9,7 +9,7 @@ module ActionController
 
       if get?
         display resource, status: resource.present? ? 200 : 404
-      elsif post?
+      elsif post? || patch?
         display resource, status: :ok, location: api_location
       else
         head :no_content
