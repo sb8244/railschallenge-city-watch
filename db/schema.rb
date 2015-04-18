@@ -15,12 +15,12 @@ ActiveRecord::Schema.define(version: 20150418024553) do
 
   create_table "emergencies", force: :cascade do |t|
     t.datetime "resolved_at"
-    t.string   "code",                         null: false
-    t.integer  "fire_severity",    default: 0, null: false
-    t.integer  "police_severity",  default: 0, null: false
-    t.integer  "medical_severity", default: 0, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "code",             null: false
+    t.integer  "fire_severity",    null: false
+    t.integer  "police_severity",  null: false
+    t.integer  "medical_severity", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "responders", force: :cascade do |t|
