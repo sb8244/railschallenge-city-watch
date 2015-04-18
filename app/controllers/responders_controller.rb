@@ -12,11 +12,11 @@ class RespondersController < ApplicationController
   end
 
   def create
-    respond_with responders.create(responder_create_params)
+    respond_with responders.create(create_params)
   end
 
   def update
-    responder.update(responder_update_params)
+    responder.update(update_params)
     respond_with responder
   end
 
@@ -30,20 +30,16 @@ class RespondersController < ApplicationController
     [:on_duty]
   end
 
+  def model_name
+    :responder
+  end
+
   def responders
     Responder.all
   end
 
   def responder
     responders.find_by(name: params[:id])
-  end
-
-  def responder_create_params
-    params.require(:responder).permit(permitted_create_params)
-  end
-
-  def responder_update_params
-    params.require(:responder).permit(permitted_update_params)
   end
 
   def responder_capacity

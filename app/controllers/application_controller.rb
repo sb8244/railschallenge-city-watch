@@ -14,17 +14,29 @@ class ApplicationController < ActionController::Base
     []
   end
 
+  def model_name
+    raise NotImplementedError.new
+  end
+
+  def create_params
+    params.require(model_name).permit(permitted_create_params)
+  end
+
+  def update_params
+    params.require(model_name).permit(permitted_update_params)
+  end
+
   private
 
   def reject_unpermitted_create_params
-    bad_keys = params[:responder].keys.reject{ |key| permitted_create_params.include?(key.to_sym) }
+    bad_keys = params[model_name].keys.reject{ |key| permitted_create_params.include?(key.to_sym) }
     return if bad_keys.empty?
 
     render json: { message: "found unpermitted parameter: #{bad_keys.first}" }, status: :unprocessable_entity
   end
 
   def reject_unpermitted_update_params
-    bad_keys = params[:responder].keys.reject{ |key| permitted_update_params.include?(key.to_sym) }
+    bad_keys = params[model_name].keys.reject{ |key| permitted_update_params.include?(key.to_sym) }
     return if bad_keys.empty?
 
     render json: { message: "found unpermitted parameter: #{bad_keys.first}" }, status: :unprocessable_entity
