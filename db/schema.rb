@@ -11,16 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150418024553) do
+ActiveRecord::Schema.define(version: 20150421011431) do
 
   create_table "emergencies", force: :cascade do |t|
     t.datetime "resolved_at"
-    t.string   "code",             null: false
-    t.integer  "fire_severity",    null: false
-    t.integer  "police_severity",  null: false
-    t.integer  "medical_severity", null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.string   "code",                             null: false
+    t.integer  "fire_severity",                    null: false
+    t.integer  "police_severity",                  null: false
+    t.integer  "medical_severity",                 null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "full_response",    default: false, null: false
   end
 
   create_table "responders", force: :cascade do |t|
@@ -31,6 +32,9 @@ ActiveRecord::Schema.define(version: 20150418024553) do
     t.boolean  "on_duty",        default: false, null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.integer  "emergency_id"
   end
+
+  add_index "responders", ["emergency_id"], name: "index_responders_on_emergency_id"
 
 end
