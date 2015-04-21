@@ -1,3 +1,26 @@
+# My Submission to RailsChallenge v1.0 - City Watch
+
+For me, I wanted to follow how I would typically developer a Rails application, using ActiveModelSerializers,
+light controllers, and clean service objects (kept in models for this light code base). Perfect on the automated
+testing side.
+
+```
+➜  railschallenge-city-watch git:(master) rake test && rubocop
+Run options: --seed 45187
+
+# Running:
+
+...................................................
+
+Finished in 1.849125s, 27.5806 runs/s, 61.6508 assertions/s.
+
+51 runs, 114 assertions, 0 failures, 0 errors, 0 skips
+Inspecting 49 files
+.................................................
+
+49 files inspected, no offenses detected
+```
+
 # City Watch - RailsChallenge v1.0
 
 Welcome to the very first **rails**challenge!
