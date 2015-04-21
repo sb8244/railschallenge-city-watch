@@ -1,6 +1,6 @@
 class EmergenciesController < ApplicationController
   def index
-    respond_with emergencies, full_responses: [ Emergency.full_response_count, Emergency.count ], meta_key: :full_responses
+    respond_with emergencies, full_responses: full_response_metrics, meta_key: :full_responses
   end
 
   def show
@@ -16,11 +16,7 @@ class EmergenciesController < ApplicationController
 
   def update
     emergency.update(update_params)
-
-    if emergency.resolved_at
-      emergency.responders.clear
-    end
-
+    emergency.responders.clear if emergency.resolved_at
     respond_with emergency
   end
 
@@ -52,6 +48,10 @@ class EmergenciesController < ApplicationController
     end
   end
 
+  def full_response_metrics
+    [Emergency.full_response_count, Emergency.count]
+  end
+
   EmergencyDispatch = Struct.new(:emergency) do
     def call
       assign_fire_responders! if emergency.fire_severity > 0
@@ -64,7 +64,13 @@ class EmergenciesController < ApplicationController
     private
 
     def assign_responders!(type, amount)
-      # Make a first attempt at finding an exact match
+      return true if assign_exact_responder(type, amount)
+      return true if assign_nonexact_responders(type, amount)
+
+      false
+    end
+
+    def assign_exact_responder(type, amount)
       Responder.where(on_duty: true, emergency: nil, type: type, capacity: amount).first.tap do |responder|
         if responder
           emergency.responders << responder
@@ -72,7 +78,10 @@ class EmergenciesController < ApplicationController
         end
       end
 
-      # No exact match, do our best to assign but not overassign
+      false
+    end
+
+    def assign_nonexact_responders(type, amount)
       Responder.where(on_duty: true, emergency: nil, type: type).order(capacity: :desc).tap do |responders|
         responders.each do |responder|
           emergency.responders << responder
@@ -85,15 +94,15 @@ class EmergenciesController < ApplicationController
     end
 
     def assign_fire_responders!
-      assign_responders!("Fire", emergency.fire_severity)
+      assign_responders!('Fire', emergency.fire_severity)
     end
 
     def assign_police_responders!
-      assign_responders!("Police", emergency.police_severity)
+      assign_responders!('Police', emergency.police_severity)
     end
 
     def assign_medical_responders!
-      assign_responders!("Medical", emergency.medical_severity)
+      assign_responders!('Medical', emergency.medical_severity)
     end
   end
 end

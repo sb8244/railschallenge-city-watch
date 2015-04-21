@@ -9,6 +9,6 @@ Bundler.require(*Rails.groups)
 module CityWatch
   class Application < Rails::Application
     config.active_record.raise_in_transactional_callbacks = true
-    config.exceptions_app = self.routes
+    config.exceptions_app = routes
   end
 end

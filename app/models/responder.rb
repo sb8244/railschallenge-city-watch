@@ -3,15 +3,13 @@ class Responder < ActiveRecord::Base
 
   belongs_to :emergency
 
-  validates_presence_of :name
-  validates_presence_of :capacity
-  validates_presence_of :type
-
-  validates_uniqueness_of :name
-
-  validates_inclusion_of :capacity, in: 1..5
+  validates :capacity, presence: true
+  validates :type, presence: true
+  validates :name, presence: true
+  validates :name, uniqueness: true
+  validates :capacity, inclusion: { in: 1..5 }
 
   def self.types
-    ["Fire", "Medical", "Police"]
+    %w(Fire Police Medical)
   end
 end

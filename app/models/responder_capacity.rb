@@ -1,8 +1,7 @@
 class ResponderCapacity
-
-  def as_json(options={})
+  def as_json(*)
     {}.tap do |resp|
-      types.each do |type|
+      Responder.types.each do |type|
         resp[type] = details(type)
       end
     end
@@ -10,16 +9,12 @@ class ResponderCapacity
 
   private
 
-  def types
-    ["Fire", "Police", "Medical"]
-  end
-
   def details(type)
     [
-        total_capacity(type),
-        available_capacity(type),
-        on_duty_capacity(type),
-        available_on_duty_capacity(type)
+      total_capacity(type),
+      available_capacity(type),
+      on_duty_capacity(type),
+      available_on_duty_capacity(type)
     ]
   end
 
