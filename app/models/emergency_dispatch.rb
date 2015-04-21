@@ -1,4 +1,8 @@
-EmergencyDispatch = Struct.new(:emergency) do
+class EmergencyDispatch
+  def initialize(emergency)
+    @emergency = emergency
+  end
+
   def call
     assign_fire_responders! if emergency.fire_severity > 0
     assign_police_responders! if emergency.police_severity > 0
@@ -8,6 +12,8 @@ EmergencyDispatch = Struct.new(:emergency) do
   end
 
   private
+
+  attr_reader :emergency
 
   def assign_responders!(type, amount)
     return true if assign_exact_responder(type, amount)
