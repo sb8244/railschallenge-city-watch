@@ -28,6 +28,7 @@ class ResponderCapacity
   end
 
   def available_capacity(type)
+    Responder.where(type: type, emergency: nil).sum(:capacity)
   end
 
   def on_duty_capacity(type)
@@ -35,6 +36,6 @@ class ResponderCapacity
   end
 
   def available_on_duty_capacity(type)
-
+    Responder.where(type: type, on_duty: true, emergency: nil).sum(:capacity)
   end
 end
