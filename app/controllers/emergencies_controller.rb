@@ -27,11 +27,11 @@ class EmergenciesController < ApplicationController
   end
 
   def permitted_create_params
-    [:code, :fire_severity, :police_severity, :medical_severity]
+    @permitted_create_params ||= [:code, :fire_severity, :police_severity, :medical_severity]
   end
 
   def permitted_update_params
-    [:resolved_at, :police_severity, :fire_severity, :medical_severity]
+    @permitted_update_params ||= [:resolved_at, :police_severity, :fire_severity, :medical_severity]
   end
 
   def emergencies
@@ -39,16 +39,16 @@ class EmergenciesController < ApplicationController
   end
 
   def emergency
-    emergencies.find_by(code: params[:id])
+    @emergency ||= emergencies.find_by(code: params[:id])
   end
 
   def update_params
-    super.tap do |p|
+    @update_params ||= super.tap do |p|
       p[:full_response] = emergency.full_response? if p[:resolved_at].present?
     end
   end
 
   def full_response_metrics
-    [Emergency.full_response_count, Emergency.count]
+    @full_response_metrics ||= [Emergency.full_response_count, Emergency.count]
   end
 end

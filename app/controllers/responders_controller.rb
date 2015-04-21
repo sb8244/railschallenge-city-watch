@@ -23,11 +23,11 @@ class RespondersController < ApplicationController
   private
 
   def permitted_create_params
-    [:type, :name, :capacity]
+    @permitted_create_params ||= [:type, :name, :capacity]
   end
 
   def permitted_update_params
-    [:on_duty]
+    @permitted_update_params ||= [:on_duty]
   end
 
   def model_name
@@ -39,10 +39,10 @@ class RespondersController < ApplicationController
   end
 
   def responder
-    responders.find_by(name: params[:id])
+    @responder ||= responders.find_by(name: params[:id])
   end
 
   def responder_capacity
-    { capacity: ResponderCapacity.new }
+    @responder_capacity ||= { capacity: ResponderCapacity.new }
   end
 end
