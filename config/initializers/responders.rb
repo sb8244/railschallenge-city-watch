@@ -1,4 +1,4 @@
-# Override responder to allow for graceful 404 responses
+# Override responder to allow for graceful 404 responses and full body on update
 module ActionController
   class Responder
     def json_resource_errors
@@ -8,8 +8,8 @@ module ActionController
     def api_behavior
       fail MissingRenderer, format unless has_renderer?
 
-      return display resource, status: :ok, location: api_location if update?
-      return http_get_api_behavior if get?
+      return display resource, status: :created, location: api_location if post?
+      return http_get_api_behavior if get? || update?
 
       head :no_content
     end
