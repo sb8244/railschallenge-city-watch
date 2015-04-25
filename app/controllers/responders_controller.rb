@@ -23,11 +23,11 @@ class RespondersController < ApplicationController
   private
 
   def permitted_create_params
-    @permitted_create_params ||= [:type, :name, :capacity]
+    [:type, :name, :capacity]
   end
 
   def permitted_update_params
-    @permitted_update_params ||= [:on_duty]
+    [:on_duty]
   end
 
   def model_name

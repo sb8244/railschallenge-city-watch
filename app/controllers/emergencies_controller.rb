@@ -27,11 +27,11 @@ class EmergenciesController < ApplicationController
   end
 
   def permitted_create_params
-    @permitted_create_params ||= [:code, :fire_severity, :police_severity, :medical_severity]
+    [:code, :fire_severity, :police_severity, :medical_severity]
   end
 
   def permitted_update_params
-    @permitted_update_params ||= [:resolved_at, :police_severity, :fire_severity, :medical_severity]
+    [:resolved_at, :police_severity, :fire_severity, :medical_severity]
   end
 
   def emergencies
