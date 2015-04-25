@@ -1,12 +1,6 @@
-class NotNewId
-  def self.matches?(request)
-    request.path_parameters[:id] != 'new'
-  end
-end
-
 Rails.application.routes.draw do
-  resources :emergencies, only: [:index, :create, :show, :update], defaults: { format: :json }, constraints: NotNewId
-  resources :responders, only: [:index, :create, :show, :update], defaults: { format: :json }, constraints: NotNewId
+  resources :emergencies, defaults: { format: :json }
+  resources :responders, defaults: { format: :json }
 
   match '/404' => 'errors#not_found', via: :all
 end
