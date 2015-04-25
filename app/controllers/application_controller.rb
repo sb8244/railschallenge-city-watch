@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   before_action :reject_unpermitted_create_params, only: [:create]
   before_action :reject_unpermitted_update_params, only: [:update]
 
+  def not_found
+    render json: { message: 'page not found' }, status: :not_found
+  end
+
   protected
 
   def permitted_create_params
