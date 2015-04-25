@@ -9,6 +9,8 @@ class Responder < ActiveRecord::Base
   validates :name, uniqueness: true
   validates :capacity, inclusion: { in: 1..5 }
 
+  delegate :emergency_code, to: :emergency, allow_nil: true
+
   def self.types
     %w(Fire Police Medical)
   end
