@@ -22,10 +22,6 @@ class EmergenciesController < ApplicationController
 
   private
 
-  def model_name
-    :emergency
-  end
-
   def permitted_create_params
     [:code, :fire_severity, :police_severity, :medical_severity]
   end

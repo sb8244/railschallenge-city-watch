@@ -30,10 +30,6 @@ class RespondersController < ApplicationController
     [:on_duty]
   end
 
-  def model_name
-    :responder
-  end
-
   def responders
     Responder.all
   end

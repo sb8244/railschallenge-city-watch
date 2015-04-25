@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   respond_to :json
 
+  # Handle rejecting parameters not in the whitelist defined by a controller
   before_action :reject_unpermitted_create_params, only: [:create]
   before_action :reject_unpermitted_update_params, only: [:update]
 
@@ -14,8 +15,10 @@ class ApplicationController < ActionController::Base
     []
   end
 
+  # The model name for a controller is the singularized form of the controller name
+  # EmergenciesController is emergency, etc
   def model_name
-    fail NotImplementedError
+    self.class.name.underscore.split('_').first.singularize
   end
 
   def create_params
